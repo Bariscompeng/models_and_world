@@ -11,7 +11,7 @@ class TfParentFix(Node):
     def __init__(self):
         super().__init__('tf_parent_fix')
 
-        # use_sim_time paramını ikinci kez declare etme
+       
         if not self.has_parameter('use_sim_time'):
             self.declare_parameter('use_sim_time', True)
 
@@ -26,7 +26,7 @@ class TfParentFix(Node):
         self.pub = self.create_publisher(TFMessage, '/tf', qos)
 
     def cb(self, msg: TFMessage):
-        # Önce ROS (sim) saati, yoksa sistem saatine düş
+        
         ros_now = self.get_clock().now()
         if ros_now.nanoseconds == 0:
             stamp = Clock(clock_type=ClockType.SYSTEM_TIME).now().to_msg()
