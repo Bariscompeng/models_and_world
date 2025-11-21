@@ -5,7 +5,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    # World dosyası argümanı
+    
     world_arg = DeclareLaunchArgument(
         'world',
         default_value=PathJoinSubstitution([
@@ -17,7 +17,6 @@ def generate_launch_description():
         description='Path to SDF world file'
     )
 
-    # Gazebo'yu çalıştır
     ign = ExecuteProcess(
         cmd=['ign', 'gazebo', '-r', LaunchConfiguration('world')],
         output='screen',
@@ -30,7 +29,6 @@ def generate_launch_description():
         }
     )
 
-    # ------------------------ STATIC TF ------------------------
 
     static_tf_lidar = Node(
         package='tf2_ros',
@@ -48,7 +46,7 @@ def generate_launch_description():
         arguments=['0', '0', '0', '0', '0', '0', 'base_link', 'M100/base_link/imu_sensor']
     )
 
-    # ------------------------ CUSTOM FIX NODES ------------------------
+
 
     imu_frame_fix = Node(
         package='sim_bringup',
@@ -66,7 +64,7 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True}],
     )
 
-    # ------------------------ GZ-ROS BRIDGE ------------------------
+  -
 
     bridge = Node(
         package='ros_gz_bridge',
@@ -81,10 +79,10 @@ def generate_launch_description():
             '/world/cave/model/M100/link/base_link/sensor/imu_sensor/imu'
             '@sensor_msgs/msg/Imu@gz.msgs.IMU',
 
-            # Kamera — BURASI ÖNEMLİ
+            
             '/x3/camera/image_raw@sensor_msgs/msg/Image@gz.msgs.Image',
 
-            # LIDAR
+           
             '/x3/lidar/points@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked',
             '/model/M100/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
         ],
@@ -97,7 +95,7 @@ def generate_launch_description():
         ]
     )
 
-    # ------------------------ FOXGLOVE ------------------------
+
 
     foxglove = Node(
         package='foxglove_bridge',
@@ -107,7 +105,7 @@ def generate_launch_description():
         parameters=[{'port': 8765}]
     )
 
-    # ------------------------ RETURN ------------------------
+    
 
     return LaunchDescription([
         world_arg,
