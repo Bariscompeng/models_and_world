@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Imu
 
-TARGET_FRAME = "base_link"   # IMU'yu bu frame'e sabitle
+TARGET_FRAME = "base_link"   
 
 class ImuFrameFix(Node):
     def __init__(self):
